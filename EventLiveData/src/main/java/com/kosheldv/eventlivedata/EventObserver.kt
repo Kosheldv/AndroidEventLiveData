@@ -1,6 +1,6 @@
 package com.kosheldv.eventlivedata
 
-import androidx.lifecycle.Observer
+import android.arch.lifecycle.Observer
 
 /**
  * An [Observer] for [Event]s, simplifying the pattern of checking if the [Event]'s content has

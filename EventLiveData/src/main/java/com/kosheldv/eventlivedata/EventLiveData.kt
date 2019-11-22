@@ -1,6 +1,8 @@
 package com.kosheldv.eventlivedata
 
-import androidx.lifecycle.*
+import android.arch.lifecycle.LiveData
+import android.arch.lifecycle.MutableLiveData
+import android.arch.lifecycle.ViewModel
 
 open class EventLiveData<T> : ViewModel() {
 
