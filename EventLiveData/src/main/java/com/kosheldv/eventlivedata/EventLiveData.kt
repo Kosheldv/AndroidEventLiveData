@@ -14,6 +14,6 @@ open class EventLiveData<T> : ViewModel() {
 
     @MainThread
     fun postValue(content: T) {
-        _eventLiveData.value = Event(content)  // Trigger the event by setting a new Event as a new value
+        _eventLiveData.postValue(Event(content)) // Trigger the event by setting a new Event as a new value
     }
 }
