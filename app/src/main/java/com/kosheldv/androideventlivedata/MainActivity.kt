@@ -7,6 +7,9 @@ import android.widget.Toast
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.kosheldv.eventlivedata.Event
+import com.kosheldv.eventlivedata.EventLiveData
+import com.kosheldv.eventlivedata.EventObserver
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
