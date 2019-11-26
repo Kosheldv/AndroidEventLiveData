@@ -4,40 +4,52 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
-import com.kosheldv.eventlivedata.EventLiveData
-import com.kosheldv.eventlivedata.EventObserver
+import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
-    private val eventLiveData = EventLiveData<String>()
+    private lateinit var viewModel: EventViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        setupButton()
-        eventLiveData.postValue("Event")
+        viewModel = getViewModel{ EventViewModel() }
     }
 
     override fun onResume() {
         super.onResume()
-        eventLiveData.observeEvent(::handleEvent)
+        setupButtons()
+        viewModel.eventLiveData.observeEvent(::handleEvent)
     }
 
-    private fun setupButton() {
+    private fun setupButtons() {
         actionButton.setOnClickListener {
             val intent = Intent(this, SecondActivity::class.java)
             startActivity(intent)
         }
+        addEventButton.setOnClickListener {
+            viewModel.eventLiveData.postValue(Event("Event"))
+        }
     }
 
     private fun handleEvent(text: String) {
-        Toast.makeText(this, text, Toast.LENGTH_LONG).show()
+        Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
     }
 
-    protected fun <T> EventLiveData<T>.observeEvent(action: (T) -> Unit) {
-        this.eventLiveData.observe(this@MainActivity, EventObserver {
+    private fun <T> EventLiveData<T>.observeEvent(action: (T) -> Unit) {
+        this.observe(this@MainActivity, EventObserver {
             it?.apply(action)
         })
+    }
+
+    private inline fun <reified T : ViewModel> FragmentActivity.getViewModel(crossinline factory: () -> T): T {
+        val vmFactory = object : ViewModelProvider.Factory {
+            @Suppress("UNCHECKED_CAST")
+            override fun <U : ViewModel> create(modelClass: Class<U>): U = factory() as U
+        }
+        return ViewModelProvider(this, vmFactory).get(T::class.java)
     }
 }
