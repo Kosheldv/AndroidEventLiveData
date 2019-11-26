@@ -1,12 +1,16 @@
 package com.kosheldv.eventlivedata
 
+import java.util.concurrent.atomic.AtomicBoolean
+
 /**
  * Used as a wrapper for data that is exposed via a LiveData that represents an event.
  */
 open class Event<out T>(private val content: T) {
 
-    var hasBeenHandled = false
-        private set // Allow external read but not write
+    private val _hasBeenHandled = AtomicBoolean(false)
+
+    private val hasBeenHandled: Boolean
+        get() = _hasBeenHandled.get()
 
     /**
      * Returns the content and prevents its use again.
@@ -15,7 +19,7 @@ open class Event<out T>(private val content: T) {
         return if (hasBeenHandled) {
             null
         } else {
-            hasBeenHandled = true
+            _hasBeenHandled.set(true)
             content
         }
     }
