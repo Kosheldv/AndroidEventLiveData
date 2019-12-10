@@ -1,13 +1,12 @@
 package com.kosheldv.androideventlivedata
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.kosheldv.eventlivedata.Event
 import com.kosheldv.eventlivedata.EventLiveData
 import com.kosheldv.eventlivedata.EventObserver
 import kotlinx.android.synthetic.main.activity_main.*
@@ -34,7 +33,7 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
         addEventButton.setOnClickListener {
-            viewModel.eventLiveData.postValue(Event("Event"))
+            viewModel.eventLiveData.postEvent("Event")
         }
     }
 
