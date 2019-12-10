@@ -5,6 +5,9 @@ import androidx.lifecycle.MutableLiveData
 
 open class EventLiveData<T> : MutableLiveData<Event<T>>() {
 
+    val eventValue: T?
+        get() = value?.getContent()
+
     fun postEvent(value: T) {
         postValue(Event(value))
     }
@@ -15,4 +18,3 @@ open class EventLiveData<T> : MutableLiveData<Event<T>>() {
         })
     }
 }
-
