@@ -8,7 +8,6 @@ import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.kosheldv.eventlivedata.EventLiveData
-import com.kosheldv.eventlivedata.EventObserver
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -18,7 +17,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        viewModel = getViewModel{ EventViewModel() }
+        viewModel = getViewModel { EventViewModel() }
     }
 
     override fun onResume() {
@@ -42,9 +41,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun <T> EventLiveData<T>.observeEvent(action: (T) -> Unit) {
-        this.observe(this@MainActivity, EventObserver {
-            it?.apply(action)
-        })
+        this.observeEvent(this@MainActivity, action)
     }
 
     private inline fun <reified T : ViewModel> FragmentActivity.getViewModel(crossinline factory: () -> T): T {
